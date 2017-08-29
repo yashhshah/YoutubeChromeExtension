@@ -1,0 +1,34 @@
+{
+	"manifest_version": 2, 
+	"name": "Youtube Timestamp", 
+	"version": "0.1"
+	"content_scripts": [
+	
+		{
+	
+		"matches":["<all_urls>"],
+	
+		
+		"js":["content.js"]
+	
+	
+	
+	
+	
+	}
+
+
+
+
+
+
+
+
+]
+
+
+
+}
+
+
+
