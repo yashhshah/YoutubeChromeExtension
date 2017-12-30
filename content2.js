@@ -32,6 +32,9 @@ function main(){
 	currUrl = getUrl()
 	getIndex = urlVisits.indexOf(currUrl)
 	document.cookie=JSON.stringify(urlVisits)
+	if(urlVisits==[]){
+		urlVisits = JSON.parse(urlVisits)
+	}
 	console.log(document.cookie)
 
 	if(currUrl.includes(runsite) && currUrl!=runsite && getIndex!=-1){

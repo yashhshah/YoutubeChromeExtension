@@ -36,7 +36,7 @@ function main(){
 
 	if(currUrl.includes(runsite) && currUrl!=runsite && getIndex!=-1){
 		urlVisits[getIndex] = originalUrl[getIndex]+finalTimes[getIndex]
-		urlVisits.push(currUrl)
+		urlVisits.push(oldUrl)
 		window.location = originalUrl[getIndex]+finalTimes[getIndex]		
 	
 	}	
