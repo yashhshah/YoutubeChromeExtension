@@ -12,6 +12,7 @@ timeStamps = []
 finalTimes = []
 urlVisits = []
 originalUrl = []
+oldUrl2 = ""
 
 
 
@@ -27,17 +28,18 @@ function getUrl(){
 
 
 function main(){
-	//console.log(document.cookie)
+
 	currUrl = getUrl()
 	getIndex = urlVisits.indexOf(currUrl)
+	document.cookie=JSON.stringify(urlVisits)
+	console.log(document.cookie)
 
 	if(currUrl.includes(runsite) && currUrl!=runsite && getIndex!=-1){
-		urlVisits[getIndex] = currUrl+finalTimes[getIndex]
-		//document.cookie += urlVisits
-		window.location = originalUrl[getIndex]+finalTimes[getIndex]
-		
+		urlVisits[getIndex] = originalUrl[getIndex]+finalTimes[getIndex]
+		urlVisits.push(oldUrl)
+		window.location = originalUrl[getIndex]+finalTimes[getIndex]		
 	
-	}
+	}	
 
 	else if(currUrl.includes(runsite) && currUrl!=runsite){
 		
@@ -51,13 +53,22 @@ function main(){
 			}
 
 			finalTimes.push("#t="+final_min+"m"+final_sec+"s")
-			console.log(finalTimes)
+			//console.log(finalTimes)
 			if(oldUrl.indexOf("#t")!=-1){
-				oldUrl = oldUrl.substring(0, oldUrl.indexOf("#t"))
+				oldUrl2 = oldUrl.substring(0, oldUrl.indexOf("#t"))
+				
 			}
+			//console.log(oldUrl)
 			urlVisits.push(oldUrl)
-			originalUrl.push(oldUrl)
-			console.log(originalUrl[originalUrl.length-1])
+			if(oldUrl2!=""){
+				originalUrl.push(oldUrl2)			
+			}
+			else{
+				originalUrl.push(oldUrl)
+			}
+			
+			
+			//console.log(originalUrl[originalUrl.length-1])
 			oldUrl = getUrl() 
 			timeStamps = []
 			//window.location = "https://www.google.ca"
