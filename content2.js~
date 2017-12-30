@@ -46,7 +46,7 @@ function main(){
 	if(urlVisits==[]){
 		urlVisits = JSON.parse(urlVisits)
 	}
-	console.log(document.cookie)
+	console.log(getUrlVisits(document.cookie))
 
 	if(currUrl.includes(runsite) && currUrl!=runsite && getIndex!=-1){
 		urlVisits[getIndex] = originalUrl[getIndex]+finalTimes[getIndex]
