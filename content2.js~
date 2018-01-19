@@ -26,10 +26,40 @@ function getUrl(){
 	return window.location.href
 }
 
+function convertToArray(rawstring, myArray){
+	currString = rawstring.substring(1)
+	initialIndex = rawstring.indexOf(",")
+
+	while (initialIndex!=-1){
+		beginString = currString.substring(2, initialIndex-2)
+		myArray.push(beginString)
+		currString = currString.substring(initialIndex)
+		initialIndex = currString.indexOf(",")
+		
+	}
+
+	lastString = currString.substring(1, currString.indexOf("]")-1)
+	myArray.push(lastString)
+	return myArray
+	
+
+}
+
 function getUrlVisits(docCookie){
 	initialIndex = docCookie.indexOf(";")
-	initialAnalyze = docCookie.substring(0,initialIndex+1)
-	restAnalyze = docCookie.substring(initialIndex+1)
+	restAnalyze = docCookie
+	//initialAnalyze = docCookie.substring(0,initialIndex+1)
+	//restAnalyze = docCookie.substring(initialIndex+1)
+	while(initialIndex!=-1){
+		restAnalyze = restAnalyze.substring(initialIndex+1)
+		initialIndex = restAnalyze.indexOf(";")
+	}
+	if(restAnalyze.includes("http")){
+		return convertToArray(restAnalyze, [])
+	}
+	else{
+		return 0
+	}
 
 	
 
@@ -46,7 +76,12 @@ function main(){
 	if(urlVisits==[]){
 		urlVisits = JSON.parse(urlVisits)
 	}
-	console.log(getUrlVisits(document.cookie))
+	potUrlVisits = getUrlVisits(document.cookie)
+	if(potUrlVisits!=0){
+		console.log(potUrlVisits)
+		urlVisits = potUrlVisits.slice()
+	}
+	console.log(urlVisits)
 
 	if(currUrl.includes(runsite) && currUrl!=runsite && getIndex!=-1){
 		urlVisits[getIndex] = originalUrl[getIndex]+finalTimes[getIndex]
