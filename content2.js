@@ -1,13 +1,24 @@
+//////////////////////////////////////
+//				    //
+// Yash Shah			    //
+// 				    //
+// Youtube Chrome Extension	    //
+//				    //
+//			            //
+//////////////////////////////////////
 
 
 
+//set runsite to be youtube
 runsite = "https://www.youtube.com/"
 oldUrl = getUrl()  
 
+//if currently not on youtube
 if(!oldUrl.includes(runsite) || oldUrl==runsite){
 	oldUrl = ""
-
 }
+
+//set arrays and variables
 timeStamps = []
 finalTimes = []
 urlVisits = []
@@ -15,17 +26,18 @@ originalUrl = []
 oldUrl2 = ""
 
 
-
+//get current time stamp of youtube video
 function getTimeStamp(){
 	return document.getElementsByClassName("video-stream html5-main-video")[0].currentTime
 }
 
 
+//get current url
 function getUrl(){
-
 	return window.location.href
 }
 
+//convert cookies to Array- function that will be used in the future, not used currently
 function convertToArray(rawstring, myArray){
 	currString = rawstring.substring(1)
 	initialIndex = rawstring.indexOf(",")
@@ -34,17 +46,17 @@ function convertToArray(rawstring, myArray){
 		beginString = currString.substring(2, initialIndex-2)
 		myArray.push(beginString)
 		currString = currString.substring(initialIndex)
-		initialIndex = currString.indexOf(",")
-		
+		initialIndex = currString.indexOf(",")		
 	}
 
 	lastString = currString.substring(1, currString.indexOf("]")-1)
 	myArray.push(lastString)
 	return myArray
-	
 
 }
 
+
+//gets url visits from given cookie
 function getUrlVisits(docCookie){
 	initialIndex = docCookie.indexOf(";")
 	restAnalyze = docCookie
@@ -61,13 +73,9 @@ function getUrlVisits(docCookie){
 		return 0
 	}
 
-	
-
-
-
 }
 
-
+//main function-runs every 2 seconds
 function main(){
 
 	currUrl = getUrl()
@@ -76,18 +84,18 @@ function main(){
 	if(urlVisits==[]){
 		urlVisits = JSON.parse(urlVisits)
 	}
-	potUrlVisits = getUrlVisits(document.cookie)
-	if(potUrlVisits!=0){
-		urlVisits = potUrlVisits.slice()
-	}
+	console.log(document.cookie)
 	console.log(urlVisits)
 
 	if(currUrl.includes(runsite) && currUrl!=runsite && getIndex!=-1){
 		urlVisits[getIndex] = originalUrl[getIndex]+finalTimes[getIndex]
 		urlVisits.push(oldUrl)
+		urlVisits.push(finalTimes.slice(0))
+		urlVisits.push(originalUrl.slice(0))
 		document.cookie=JSON.stringify(urlVisits)
-		window.location = originalUrl[getIndex]+finalTimes[getIndex]		
-	
+		//document.cookie+=JSON.stringify(finalTimes)
+		//document.cookie+=JSON.stringify(originalUrl)
+		window.location = originalUrl[getIndex]+finalTimes[getIndex]
 	}	
 
 	else if(currUrl.includes(runsite) && currUrl!=runsite){
@@ -117,11 +125,8 @@ function main(){
 			}
 			
 			
-			//console.log(originalUrl[originalUrl.length-1])
 			oldUrl = getUrl() 
-			timeStamps = []
-			//window.location = "https://www.google.ca"
-	
+			timeStamps = []	
 		}
 	
 		
@@ -134,19 +139,10 @@ function main(){
 		else{
 		
 			oldUrl = currUrl
-		}
-	
-	
-	
-	
-	
-	
+		}	
 	}
-	
-
-	
-
-
 }
 
+
+//run main every 2 seconds
 window.setInterval(main, 2000)
